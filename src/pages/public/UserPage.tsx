@@ -12,7 +12,8 @@ import { schemaUser, type UserFormValues } from '../../models';
 import { createInitialState, hanleZodError } from '../../helpers';
 import { useAlert, useAxios } from '../../hooks';
 import { Link, useNavigate } from 'react-router-dom';
-import { useActionState } from 'react';
+import { useActionState,useState } from 'react';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 type UserActionState = ActionState<UserFormValues>;
 const initialState = createInitialState<UserFormValues>();
@@ -49,6 +50,8 @@ export const UserPage = () => {
     createUserApi,
     initialState
   );
+  
+  const [isVisible, setIsVisible] = useState(false);
 
   return (
     <Container
@@ -88,36 +91,42 @@ export const UserPage = () => {
               label="Username"
               autoComplete="username"
               autoFocus
-              type="text"
+              type='text'
               disabled={isPending}
               defaultValue={state?.formData?.username}
               error={!!state?.errors?.username}
               helperText={state?.errors?.username}
             />
+            <div style={{ position: 'relative' }}>
             <TextField
               name="password"
               margin="normal"
               required
               fullWidth
               label="Password"
-              type="password"
+              type={ isVisible ? 'text' : 'password' }
               disabled={isPending}
               defaultValue={state?.formData?.password}
               error={!!state?.errors?.password}
               helperText={state?.errors?.password}
             />
+            <div className='password-toggle-icon' onClick={ () => setIsVisible(!isVisible) }>{ isVisible ? <Visibility/> : <VisibilityOff/> }</div>
+            </div>
+            <div style={{ position: 'relative' }}>
             <TextField
               name="confirmPassword"
               margin="normal"
               required
               fullWidth
               label="Repetir password"
-              type="password"
+              type={ isVisible ? 'text' : 'password' }
               disabled={isPending}
               defaultValue={state?.formData?.confirmPassword}
               error={!!state?.errors?.confirmPassword}
               helperText={state?.errors?.confirmPassword}
             />
+            <div className='password-toggle-icon' onClick={ () => setIsVisible(!isVisible) }>{ isVisible ? <Visibility/> : <VisibilityOff/> }</div>
+            </div>
             <Button
               type="submit"
               fullWidth

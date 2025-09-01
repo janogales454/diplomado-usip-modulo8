@@ -8,12 +8,16 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { useActionState } from 'react';
+import { useActionState,useState } from 'react';
 import { shemaLogin, type LoginFormValues } from '../../models';
 import type { ActionState } from '../../interfaces';
 import { createInitialState, hanleZodError } from '../../helpers';
 import { useAlert, useAuth, useAxios } from '../../hooks';
 import { Link, useNavigate } from 'react-router-dom';
+import {
+  Visibility,
+  VisibilityOff,
+} from '@mui/icons-material';
 
 export type LoginActionState = ActionState<LoginFormValues>;
 const initialState = createInitialState<LoginFormValues>();
@@ -52,6 +56,8 @@ export const LoginPage = () => {
     loginApi,
     initialState
   );
+
+  const [isVisible, setIsVisible] = useState(false);
 
   return (
     <Container
@@ -102,18 +108,21 @@ export const LoginPage = () => {
               error={!!state?.errors?.username}
               helperText={state?.errors?.username}
             />
+            <div style={{ position: 'relative' }}>
             <TextField
               name="password"
               margin="normal"
               required
               fullWidth
               label="Password"
-              type="password"
+              type={ isVisible ? 'text' : 'password' }
               disabled={isPending}
               defaultValue={state?.formData?.password}
               error={!!state?.errors?.password}
               helperText={state?.errors?.password}
-            />
+            ></TextField>
+            <div className='password-toggle-icon' onClick={ () => setIsVisible(!isVisible) }>{ isVisible ? <Visibility/> : <VisibilityOff/> }</div>
+            </div>
             <Button
               type="submit"
               fullWidth
