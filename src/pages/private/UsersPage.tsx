@@ -136,17 +136,14 @@ export const UsersPage = () => {
 
   return (
     <Box sx={{ width: '100%' }}>
-      {/* Header con titulo y boton agregar */}
       <UserHeader handleOpenCreateDialog={handleOpenCreateDialog} />
 
-      {/* Barra de herramientas con filtros y busquedas */}
       <UserFilter
         filterStatus={filterStatus}
         setFilterStatus={setFilterStatus}
         setSearch={setSearch}
       ></UserFilter>
 
-      {/* Tabla */}
       <UserTabla
         users={users}
         rowCount={total}
@@ -159,7 +156,6 @@ export const UsersPage = () => {
         handleOpenEditDialog={handleOpenEditDialog}
       />
 
-      {/* Dialog */}
       <UserDialog
         open={openDialog}
         user={user}
